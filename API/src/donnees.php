@@ -4,7 +4,7 @@
 	function getPDO(){
 		// Retourne un objet connexion à la BD
 		$host='localhost';	// Serveur de BD
-		$db='mezabi3';		// Nom de la BD
+		$db='statisallebd';		// Nom de la BD
 		$user='root';		// User 
 		$pass='root';		// Mot de passe
 		$charset='utf8mb4';	// charset utilisé
@@ -30,16 +30,12 @@
 		}
 	}
 	
-	function getStockPrix() {
-		// Retourne la liste des stockPrix
+	function getSignalements() {
 		try {
 			$pdo=getPDO();
-			$requete='SELECT ar.CATEGORIE, ca.DESIGNATION AS CATEGORIE, ar.CODE_ARTICLE, ar.DESIGNATION, ta.CODE_TAILLE, ta.DESIGNATION as TAILLE, co.CODE_COULEUR, co.DESIGNATION as COULEUR, sp.CODE_BARRE, sp.PRIX, sp.STOCK  
-			FROM stockprix sp left join articles ar on sp.ARTICLE=ar.ID_ARTICLE 
-			LEFT JOIN a_couleurs co ON sp.COULEUR = co.CODE_COULEUR 
-			LEFT JOIN a_tailles ta ON sp.TAILLE = ta.CODE_TAILLE
-			LEFT JOIN a_categories ca ON ar.CATEGORIE = ca.CODE_CATEGORIE
-			order by ar.CATEGORIE, ar.CODE_ARTICLE, ta.CODE_TAILLE, co.DESIGNATION' ; 
+			$requete='SELECT id, date, heure, titre, resume, impact, recontact
+			FROM signalements
+			order by date DESC, heure DESC, impact DESC'; 
 			
 			$stmt = $pdo->prepare($requete);										// Préparation de la requête
 			$stmt->execute();	
@@ -57,31 +53,21 @@
 		}
 	}
 
-	function modifierPrixStock($donneesJson, $code_barre) {
-		if ($donneesJson['PRIX'] != "" && $donneesJson['STOCK'] != "") {
+	function modifierSignalement($donneesJson, $identifiant) {
+		if ($donneesJson['TITRE'] != "" && $donneesJson['RESUME'] != ""
+			&& $donneesJson['IMPACT'] != "" && $donneesJson['RECONTACT'] != "") {
 			// Données remplies, on modifie dans la table stockprix
 			try {
 				$pdo = getPDO();
 	
-				// Vérification si le code-barre existe
-				// Faire une transaction
-				// $verif = $pdo->prepare("SELECT COUNT(*) FROM stockprix WHERE CODE_BARRE = :CODE_BARRE");
-				// $verif->bindParam(":CODE_BARRE", $code_barre);
-				// $verif->execute();
-				// $existe = $verif->fetchColumn();
-	
-				// if ($existe == 0) {
-				// 	$infos['Statut'] = "KO";
-				// 	$infos['Message'] = "Code-barre non trouvé";
-				// 	sendJSON($infos, 404);
-				// }
-	
 				// Mise à jour du prix et du stock
-				$maRequete = "UPDATE stockprix SET PRIX = :PRIX, STOCK = :STOCK WHERE CODE_BARRE = :CODE_BARRE";
-				$stmt = $pdo->prepare($maRequete);
-				$stmt->bindParam(":CODE_BARRE", $code_barre);
-				$stmt->bindParam(":PRIX", $donneesJson['PRIX']);
-				$stmt->bindParam(":STOCK", $donneesJson['STOCK']);
+				$requete = "UPDATE signalements SET titre = :TITRE, resume = :RESUME, impact = :IMPACT, recontact = :RECONTACT WHERE id = :IDENTIFIANT";
+				$stmt = $pdo->prepare($requete);
+				$stmt->bindParam(":IDENTIFIANT", $identifiant);
+				$stmt->bindParam(":TITRE", $donneesJson['TITRE']);
+				$stmt->bindParam(":RESUME", $donneesJson['RESUME']);
+				$stmt->bindParam(":IMPACT", $donneesJson['IMPACT']);
+				$stmt->bindParam(":RECONTACT", $donneesJson['RECONTACT']);
 				$stmt->execute();
 	
 				$nb = $stmt->rowCount(); // Nombre de lignes modifiées
@@ -112,5 +98,80 @@
 			$infos['Message'] = "Données incomplètes";
 			sendJSON($infos, 400);
 		}
-	}	
+	}
+	
+	function ajoutSignalement($donneesJson) {
+		if($donneesJson['TITRE'] != ""
+			&& $donneesJson['RESUME'] != ""
+			&& $donneesJson['IMPACT'] != ""
+			&& $donneesJson['RECONTACT'] != ""
+		  ){
+			  // Données remplies, on insère dans la table
+			try {
+				$pdo=getPDO();
+				$requete='INSERT INTO signalements(date, heure, titre, resume, impact, recontact) VALUES (CURRENT_DATE(), CURRENT_TIME(), :TITRE, :RESUME, :IMPACT, :RECONTACT)';
+				$stmt = $pdo->prepare($requete);						// Préparation de la requête
+				$stmt->bindParam(":TITRE", $donneesJson['TITRE']);				
+				$stmt->bindParam(":RESUME", $donneesJson['RESUME']);
+				$stmt->bindParam(":IMPACT", $donneesJson['IMPACT']);
+				$stmt->bindParam(":RECONTACT", $donneesJson['RECONTACT']);
+				$stmt->execute();	
+				
+				$IdInsere=$pdo->lastInsertId() ;
+					
+				$stmt=null;
+				$pdo=null;
+				
+				// Retour des informations au client (statut + id créé)
+				$infos['Statut']="OK";
+				$infos['ID']=$IdInsere;
+
+				sendJSON($infos, 201) ;
+			} catch(PDOException $e){
+				// Retour des informations au client 
+				$infos['Statut']="KO";
+				$infos['message']=$e->getMessage();
+
+				sendJSON($infos, 500) ;
+			}
+		} else {
+			// Données manquantes, Retour des informations au client 
+			$infos['Statut']="KO";
+			$infos['message']="Données incomplètes";
+			sendJSON($infos, 400) ;
+		}
+	}
+
+	function supprimeSignalement($idSignalement) {
+		try {
+			$pdo=getPDO();
+			$requete='delete from signalements where id = :ID';  
+
+			$stmt = $pdo->prepare($requete);						// Préparation de la requête
+			$stmt->bindParam(":ID", $idSignalement);
+			
+			$stmt->execute();	
+			$deleted = $stmt->rowCount();	
+
+			$stmt->closeCursor();
+			$stmt=null;
+			$pdo=null;
+			if ($deleted !=0) {
+				$infos['Statut']="OK";
+				$infos['message']="Signalement supprimé";
+				sendJSON($infos, 200) ;
+			} else {
+				$infos['Statut']="KO";
+				$infos['message']="ID inexistant";
+				sendJSON($infos, 400) ;
+			}
+			
+		} catch(PDOException $e){
+			// Retour des informations au client 
+			$infos['Statut']="KO";
+			$infos['message']=$e->getMessage();
+
+			sendJSON($infos, 500) ;
+		}
+	}
 ?>

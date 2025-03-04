@@ -11,15 +11,8 @@
 				$url = explode("/", filter_var($_GET['demande'],FILTER_SANITIZE_URL));
 				
 				switch($url[0]) {
-					case 'login' :
-						if (isset($url[1])) {$login=$url[1];} else {$login="";}
-						if (isset($url[2])) {$password=$url[2];} else {$password="";}
-						verifLoginPassword($login,$password);
-						break;
-					break;
-					case 'articlesStockPrix' :
-						authentification(); 
-						getStockPrix();
+					case 'signalements' :
+						getSignalements();
 						break ;
 					default : 
 						$infos['Statut']="KO";
@@ -36,14 +29,21 @@
 		case "PUT":
 			if (!empty($_GET['demande'])) {
 				$url = explode("/", filter_var($_GET['demande'], FILTER_SANITIZE_URL));
-				if ($url[0] === 'CB_modifPrixStock' && !empty($url[1])) {
-					authentification();
-					$donnees = json_decode(file_get_contents("php://input"),true);
-					modifierPrixStock($donnees, $url[1]);
-				} else {
-					$infos['Statut'] = "KO";
-					$infos['message'] = "URL non valide ou code-barre manquant";
-					sendJSON($infos, 404);
+				switch($url[0]) {
+					case "modif_signalement" :
+						if (!empty($url[1])) {
+							$donnees = json_decode(file_get_contents("php://input"),true);
+							modifierSignalement($donnees, $url[1]);
+						} else {
+							$infos['Statut'] = "KO";
+							$infos['message'] = "Identifiant manquant";
+							sendJSON($infos, 404);
+						}
+						break;
+					default : 
+						$infos['Statut']="KO";
+						$infos['message']="'".$url[0]."' inexistant";
+						sendJSON($infos, 404) ;
 				}
 			} else {
 				$infos['Statut'] = "KO";
@@ -52,9 +52,73 @@
 			}
 			break;
 
+		case "POST" :
+			if (!empty($_GET['demande'])) {
+				$url = explode("/", filter_var($_GET['demande'],FILTER_SANITIZE_URL));
+				switch($url[0]) {
+					case 'ajout_signalement' : 
+						$donnees = json_decode(file_get_contents("php://input"),true);
+						ajoutSignalement($donnees);
+						break ;
+					default : 
+						$infos['Statut']="KO";
+						$infos['message']="'".$url[0]."' inexistant";
+						sendJSON($infos, 404) ;
+				}	
+			} else {
+				$infos['Statut']="KO";
+				$infos['message']="URL non valide";
+				sendJSON($infos, 404) ;
+			}
+			break;
+
+		case "DELETE" :	
+			if (!empty($_GET['demande'])) {
+				$url = explode("/", filter_var($_GET['demande'],FILTER_SANITIZE_URL));
+				switch($url[0]) {
+					case 'suppr_signalement' : 
+						if (!empty($url[1])) {
+							supprimeSignalement($url[1]);
+						} else {
+							$infos['Statut']="KO";
+							$infos['message']="Vous n'avez pas renseigné le numéro du signalement.";
+							sendJSON($infos, 400) ;
+						}
+						break ;
+					default : 
+						$infos['Statut']="KO";
+						$infos['message']=$url[0]." inexistant";
+						sendJSON($infos, 404) ;
+				}	
+			} else {
+				$infos['Statut']="KO";
+				$infos['message']="URL non valide";
+				sendJSON($infos, 404) ;
+			}
+			break;
+
 		default :
 			$infos['Statut']="KO";
 			$infos['message']="URL non valide";
 			sendJSON($infos, 404) ;
 	}
+	// GET
+	//http://localhost/sae_s4_site_web/API/src/signalements
+
+	// PUT
+	//http://localhost/sae_s4_site_web/API/src/modif_signalement/1
+
+	//POST
+	//http://localhost/sae_s4_site_web/API/src/ajout_signalement
+
+	//DELETE
+	//http://localhost/sae_s4_site_web/API/src/suppr_signalement/1
+
+	//Corps en JSON pour PUT et POST
+	// {
+	// 	"TITRE" : "Ampoule cassée",
+	// 	"RESUME" : "L'ampoule s'est cassée pendant la réunion",
+	// 	"IMPACT" : "1",
+	// 	"RECONTACT" : "0"
+	// }
 ?>
