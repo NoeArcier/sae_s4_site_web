@@ -53,6 +53,31 @@
 		}
 	}
 
+	function getReservations($idReservation) {
+		try {
+			$pdo=getPDO();
+			$requete='SELECT id_reservation, date_reservation, heure_debut, heure_fin
+			FROM reservation
+			WHERE id_reservation = :id
+			order by date_reservation DESC';
+			
+			$stmt = $pdo->prepare($requete); // Préparation de la requête
+			$stmt->bindParam("id", $idReservation);
+			$stmt->execute();	
+				
+			$reservations=$stmt->fetchALL();
+			$stmt->closeCursor();
+			$stmt=null;
+			$pdo=null;
+
+			sendJSON($reservations, 200) ;
+		} catch(PDOException $e){
+			$infos['Statut']="KO";
+			$infos['message']=$e->getMessage();
+			sendJSON($infos, 500) ;
+		}
+	}
+
 	function modifierSignalement($donneesJson, $identifiant) {
 		if ($donneesJson['TITRE'] != "" && $donneesJson['RESUME'] != ""
 			&& $donneesJson['IMPACT'] != "" && $donneesJson['RECONTACT'] != "") {

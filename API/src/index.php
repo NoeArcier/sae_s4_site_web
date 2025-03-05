@@ -2,7 +2,6 @@
 	require_once("json.php");
 	require_once("donnees.php");
 	require_once("connexion.php");
-	require_once('../../fonction/reservation.php');
 
 	$request_method = $_SERVER["REQUEST_METHOD"];
 	switch($request_method) {
@@ -24,7 +23,7 @@
 						
 					case 'reservations' :
 						if (!empty($url[1])) {
-							affichageMesReservations($url[1]);
+							getReservations($url[1]);
 						} else {
 							$infos['Statut'] = "KO";
 							$infos['message'] = "Identifiant manquant";
