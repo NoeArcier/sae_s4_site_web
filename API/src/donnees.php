@@ -34,7 +34,9 @@
 		try {
 			$pdo=getPDO();
 			$requete='SELECT id, date, heure, titre, resume, impact, recontact
-			FROM signalements WHERE id_employe = :IDENTIFIANT
+			FROM signalements 
+			JOIN reservation ON signalements.id_reservation = reservation.id_reservation
+			WHERE reservation.id_employe = :IDENTIFIANT
 			order by date DESC, heure DESC, impact DESC'; 
 			
 			$stmt = $pdo->prepare($requete);
