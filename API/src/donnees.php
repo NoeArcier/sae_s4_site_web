@@ -30,22 +30,23 @@
 		}
 	}
 	
-	function getSignalements() {
+	function getSignalements($identifiant) {
 		try {
 			$pdo=getPDO();
 			$requete='SELECT id, date, heure, titre, resume, impact, recontact
-			FROM signalements
+			FROM signalements WHERE id_employe = :IDENTIFIANT
 			order by date DESC, heure DESC, impact DESC'; 
 			
-			$stmt = $pdo->prepare($requete);										// Préparation de la requête
+			$stmt = $pdo->prepare($requete);
+			$stmt->bindParam(":IDENTIFIANT", $identifiant);										// Préparation de la requête
 			$stmt->execute();	
 				
-			$stockprix=$stmt ->fetchALL();
+			$signalement=$stmt ->fetchALL();
 			$stmt->closeCursor();
 			$stmt=null;
 			$pdo=null;
 
-			sendJSON($stockprix, 200) ;
+			sendJSON($signalement, 200) ;
 		} catch(PDOException $e){
 			$infos['Statut']="KO";
 			$infos['message']=$e->getMessage();
