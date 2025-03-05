@@ -2,6 +2,7 @@
 	require_once("json.php");
 	require_once("donnees.php");
 	require_once("connexion.php");
+	require_once('../../fonction/reservation.php');
 
 	$request_method = $_SERVER["REQUEST_METHOD"];
 	switch($request_method) {
@@ -12,8 +13,24 @@
 				
 				switch($url[0]) {
 					case 'signalements' :
-						getSignalements();
-						break ;
+						if (!empty($url[1])) {
+							getSignalements($url[1]));
+						} else {
+							$infos['Statut'] = "KO";
+							$infos['message'] = "Identifiant manquant";
+							sendJSON($infos, 404);
+						}
+						break;
+						
+					case 'reservations' :
+						if (!empty($url[1])) {
+							affichageMesReservations($url[1]);
+						} else {
+							$infos['Statut'] = "KO";
+							$infos['message'] = "Identifiant manquant";
+							sendJSON($infos, 404);
+						}
+						break;
 					default : 
 						$infos['Statut']="KO";
 						$infos['message']=$url[0]." inexistant";
