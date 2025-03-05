@@ -1,6 +1,6 @@
 <?php
-	require_once("../API/connexion.php");
-	require_once("../API/donnees.php");
+	require_once("../src/connexion.php");
+	require_once("../src/donnees.php");
     
 	session_start();
 
@@ -10,7 +10,7 @@
 		$pwd = $_POST['pwd'];
 
 		try {
-			$urlAPI = "http://localhost/complementweb/tp3/API/login/".$login."/".$pwd;
+			$urlAPI = "http://localhost/sae_s4_site_web/API/src/login/".$login."/".$pwd;
 			$apikey = appelAPI($urlAPI, "", $status);
 			$_SESSION['apikey'] = $apikey["APIKEYDEMONAPPLI"];
 
@@ -19,7 +19,7 @@
 			if($resultat != 0) {
 				$_SESSION['login'] = $login;
 				$_SESSION['session'] = session_id();
-				header('Location: testTP3.php');
+				header('Location: testAPI.php');
 				exit();
 			} else {
 				echo "Identifiant ou mot de passe incorrect !"; 

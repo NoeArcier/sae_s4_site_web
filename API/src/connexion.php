@@ -42,7 +42,7 @@
 
 		$pdo = getPDO();
 
-		$requete = "SELECT COUNT(*) FROM logins WHERE login = :login AND pwd = :pwd";
+		$requete = "SELECT COUNT(*) FROM login WHERE login = :login AND mdp = sha1(:pwd)";
 		
 		$stmt = $pdo->prepare($requete);
 		$stmt->bindParam(':login', $login);
@@ -57,15 +57,7 @@
 		if (isset($_SERVER["HTTP_APIKEYDEMONAPPLI"])) {
 			$cleAPI=$_SERVER["HTTP_APIKEYDEMONAPPLI"];
 
-			$pdo = getPDO();
-
-			$requete = "SELECT COUNT(*) FROM logins WHERE apikey = :apiKey";
-			$stmt = $pdo->prepare($requete);
-			$stmt->bindParam(':apiKey', $cleAPI);
-			$stmt->execute();
-			$count = $stmt->fetchColumn();
-			
-			if ($count == 0) {
+			if ($cleAPI!="LKJfdgfgSDHSKFKsdfSHFJSD5465FfsdSQFH") { 
 				$infos['Statut']="KO";
 				$infos['message']="APIKEY invalide.";
 				sendJSON($infos, 403) ;
@@ -83,39 +75,22 @@
 		$pdo = getPDO();
 		
 		// Vérifier si l'utilisateur existe et récupérer son API key
-		$requete = "SELECT apikey FROM logins WHERE login = :login AND pwd = :pwd";
+		$requete = "SELECT id_login FROM login WHERE login = :login AND mdp = sha1(:pwd)";
 		$stmt = $pdo->prepare($requete);
 		$stmt->bindParam(':login', $login);
 		$stmt->bindParam(':pwd', $password);
 		$stmt->execute();
 		
-		$apiKey = $stmt->fetchColumn();
+		$id = $stmt->fetchColumn();
 	
-		// Si l'utilisateur existe mais n'a pas d'API key, on la génère
-		if (!$apiKey) {
-			$apiKey = $login . $password;
-			$updateRequete = "UPDATE logins SET apikey = :apikey WHERE login = :login AND pwd = :pwd";
-			$updateStmt = $pdo->prepare($updateRequete);
-			$updateStmt->bindParam(':apikey', $apiKey);
-			$updateStmt->bindParam(':login', $login);
-			$updateStmt->bindParam(':pwd', $password);
-			$updateStmt->execute();
-		}
-	
-		if ($apiKey) {
-			$infos['APIKEYDEMONAPPLI'] = $apiKey;
+		if ($id) { //Si il existe
+			$infos['APIKEYDEMONAPPLI'] = "LKJfdgfgSDHSKFKsdfSHFJSD5465FfsdSQFH";
 			sendJSON($infos, 200);
-		} else {
+		} else { //Si il existe pas
 			$infos['Statut'] = "KO";
 			$infos['message'] = "Logins incorrects.";
 			sendJSON($infos, 401);
 			die();
 		}
-	}
-
-	function deconnexion() {
-		session_destroy();
-		header('Location: pageConnexion.php');
-		exit();
 	}
 ?>

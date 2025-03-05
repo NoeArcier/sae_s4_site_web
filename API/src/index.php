@@ -11,7 +11,21 @@
 				$url = explode("/", filter_var($_GET['demande'],FILTER_SANITIZE_URL));
 				
 				switch($url[0]) {
+					case 'login' :
+						if (isset($url[1])) {
+							$login=$url[1];
+						} else {
+							$login="";
+						}
+						if (isset($url[2])) {
+							$password=$url[2];
+						} else {
+							$password="";
+						}
+						verifLoginPassword($login,$password);
+						break;
 					case 'signalements' :
+						authentification();
 						getSignalements();
 						break ;
 					default : 
@@ -33,6 +47,7 @@
 					case "modif_signalement" :
 						if (!empty($url[1])) {
 							$donnees = json_decode(file_get_contents("php://input"),true);
+							authentification();
 							modifierSignalement($donnees, $url[1]);
 						} else {
 							$infos['Statut'] = "KO";
@@ -58,6 +73,7 @@
 				switch($url[0]) {
 					case 'ajout_signalement' : 
 						$donnees = json_decode(file_get_contents("php://input"),true);
+						authentification();
 						ajoutSignalement($donnees);
 						break ;
 					default : 
@@ -78,6 +94,7 @@
 				switch($url[0]) {
 					case 'suppr_signalement' : 
 						if (!empty($url[1])) {
+							authentification();
 							supprimeSignalement($url[1]);
 						} else {
 							$infos['Statut']="KO";
@@ -104,6 +121,7 @@
 	}
 	// GET
 	//http://localhost/sae_s4_site_web/API/src/signalements
+	//http://localhost/sae_s4_site_web/API/src/login/admin/admin
 
 	// PUT
 	//http://localhost/sae_s4_site_web/API/src/modif_signalement/1
