@@ -36,7 +36,9 @@
 			$requete='SELECT id, date, heure, titre, resume, impact, recontact
 			FROM signalements 
 			JOIN reservation ON signalements.id_reservation = reservation.id_reservation
-			WHERE reservation.id_employe = :IDENTIFIANT
+			WHERE signalements.id_reservation = (SELECT id_reservation
+												 FROM reservation
+												 WHERE id_employe = :IDENTIFIANT)
 			order by date DESC, heure DESC, impact DESC'; 
 			
 			$stmt = $pdo->prepare($requete);
@@ -133,16 +135,18 @@
 			&& $donneesJson['RESUME'] != ""
 			&& $donneesJson['IMPACT'] != ""
 			&& $donneesJson['RECONTACT'] != ""
+			&& $donneesJson['RESERVATION'] != ""
 		  ){
 			  // Données remplies, on insère dans la table
 			try {
 				$pdo=getPDO();
-				$requete='INSERT INTO signalements(date, heure, titre, resume, impact, recontact) VALUES (CURRENT_DATE(), CURRENT_TIME(), :TITRE, :RESUME, :IMPACT, :RECONTACT)';
+				$requete='INSERT INTO signalements(date, heure, titre, resume, impact, recontact, id_reservation) VALUES (CURRENT_DATE(), CURRENT_TIME(), :TITRE, :RESUME, :IMPACT, :RECONTACT, :RESERVATION)';
 				$stmt = $pdo->prepare($requete);						// Préparation de la requête
 				$stmt->bindParam(":TITRE", $donneesJson['TITRE']);				
 				$stmt->bindParam(":RESUME", $donneesJson['RESUME']);
 				$stmt->bindParam(":IMPACT", $donneesJson['IMPACT']);
 				$stmt->bindParam(":RECONTACT", $donneesJson['RECONTACT']);
+				$stmt->bindParam(":RESERVATION", $donneesJson['RESERVATION']);
 				$stmt->execute();	
 				
 				$IdInsere=$pdo->lastInsertId() ;

@@ -137,7 +137,8 @@
 			sendJSON($infos, 404) ;
 	}
 	// GET
-	//http://localhost/sae_s4_site_web/API/src/signalements
+	//http://localhost/sae_s4_site_web/API/src/signalements/A999999
+	//http://localhost/sae_s4_site_web/API/src/reservations/A999999
 	//http://localhost/sae_s4_site_web/API/src/login/admin/admin
 
 	// PUT
@@ -149,11 +150,20 @@
 	//DELETE
 	//http://localhost/sae_s4_site_web/API/src/suppr_signalement/1
 
-	//Corps en JSON pour PUT et POST
+	//Corps en JSON pour PUT
 	// {
 	// 	"TITRE" : "Ampoule cassée",
 	// 	"RESUME" : "L'ampoule s'est cassée pendant la réunion",
 	// 	"IMPACT" : "1",
 	// 	"RECONTACT" : "0"
+	// }
+
+	//Corps en JSON pour POST
+	// {
+	// 	"TITRE" : "Oui",
+	// 	"RESUME" : "Peut être",
+	// 	"IMPACT" : "3",
+	// 	"RECONTACT" : "1",
+	//  "RESERVATION" : "R000001"
 	// }
 ?>
