@@ -16,7 +16,7 @@ ALTER TABLE `signalements`
   ADD CONSTRAINT `fk_reservation` FOREIGN KEY (`id_reservation`) REFERENCES `reservation` (`id_reservation`);
 
 INSERT INTO reservation (id_reservation, id_salle, id_employe, id_activite, date_reservation, heure_debut, heure_fin) VALUES
-('R000019', '00000006', 'A999999', 'A0000001', '2025-01-25', '09:00:00', '11:00:00'),
+('R000019', '00000006', 'A999999', 'A0000001', '2025-01-25', '09:00:00', '11:00:00');
   
 -- Insertion des données dans la table employe
 INSERT INTO signalements (date, heure, titre, resume, impact, recontact, id_reservation) VALUES
