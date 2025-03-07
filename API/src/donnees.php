@@ -61,8 +61,10 @@
 	function getReservations($idEmploye) {
 		try {
 			$pdo=getPDO();
-			$requete='SELECT id_reservation, date_reservation, heure_debut, heure_fin
+			$requete='SELECT reservation.id_reservation AS ID, reservation.date_reservation AS DATE, reservation.heure_debut AS HDEBUT, reservation.heure_fin AS HFIN, salle.nom AS SALLE, activite.nom_activite AS ACTIVITE
 			FROM reservation
+			JOIN salle ON reservation.id_salle = salle.id_salle
+			JOIN activite ON reservation.id_activite = activite.id_activite
 			WHERE id_employe = :id
 			order by date_reservation DESC';
 			

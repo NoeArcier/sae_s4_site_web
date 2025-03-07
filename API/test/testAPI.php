@@ -116,13 +116,15 @@
 					<?php
 						echo "<table class='table table-striped table-bordered'>";
 						
-						echo "<tr><th>Id</th><th>Date</th><th>Heure Début</th><th>Heure Fin</th></tr>";
+						echo "<tr><th>Id</th><th>Date</th><th>Heure Début</th><th>Heure Fin</th><th>Salle</th><th>Activité</th></tr>";
 						foreach ($lesReservations as $reservation) {
 							echo "<tr>";
-							echo "<td>" . $reservation['id_reservation'] . "</td>";
-							echo "<td>" . $reservation['date_reservation'] . "</td>";
-							echo "<td>" . $reservation['heure_debut'] . "</td>";
-							echo "<td>" . $reservation['heure_fin'] . "</td>";
+							echo "<td>" . $reservation['ID'] . "</td>";
+							echo "<td>" . $reservation['DATE'] . "</td>";
+							echo "<td>" . $reservation['HDEBUT'] . "</td>";
+							echo "<td>" . $reservation['HFIN'] . "</td>";
+							echo "<td>" . $reservation['SALLE'] . "</td>";
+							echo "<td>" . $reservation['ACTIVITE'] . "</td>";
 							echo "</tr>";
 						}
 						echo "</table>";
