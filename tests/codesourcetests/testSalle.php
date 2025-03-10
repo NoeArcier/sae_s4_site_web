@@ -1,10 +1,9 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-require "liaisonBD.php";
-require "votre_fichier.php"; // Remplacez par le vrai nom du fichier
+require "fonction/liaisonBD.php";
 
-class SalleTest extends TestCase {
+class testSalle extends TestCase {
     private $pdo;
 
     protected function setUp(): void {
