@@ -1,0 +1,16 @@
+<phpunit bootstrap="./vendor/autoload.php">
+    <testsuites>
+        <testsuite name="default test suit">
+            <directory>codesourcetests</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage>
+        <include>
+            <directory suffix=".php">../../sae_s4_site_web</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">./</directory>
+        </exclude>
+    </coverage>
+</phpunit>
