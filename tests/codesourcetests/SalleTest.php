@@ -3,7 +3,7 @@ use PHPUnit\Framework\TestCase;
 
 require "fonction/liaisonBD.php";
 
-class testSalle extends TestCase {
+class SalleTest extends TestCase {
     private $pdo;
 
     protected function setUp(): void {

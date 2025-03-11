@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 require "fonction/liaisonBD.php";
 
-class TestExportation extends TestCase {
+class ExportationTest extends TestCase {
     private $pdo;
 
     protected function setUp(): void {

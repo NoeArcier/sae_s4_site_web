@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 require "fonction/liaisonBD.php";
 
-class TestLiaisonBD extends TestCase {
+class LiaisonBDTest extends TestCase {
     
     public function testConnexionReussie() {
         try {

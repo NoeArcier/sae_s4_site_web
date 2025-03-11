@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 require("fonction/connexion.php");
 
-class TestConnexion extends TestCase
+class ConnexionTest extends TestCase
 {
     private $pdoMock;
     private $stmtMock;
