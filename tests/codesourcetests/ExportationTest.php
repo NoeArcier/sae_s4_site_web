@@ -2,10 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
-require "liaisonBD.php";
-require "functions.php";
+require "fonction/liaisonBD.php";
 
-class FunctionsTest extends TestCase {
+class ExportationTest extends TestCase {
     private $pdo;
 
     protected function setUp(): void {

@@ -1,5 +1,8 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
+
+require("fonction/employe.php");
 
 class EmployeTest extends TestCase {
     private $pdo;

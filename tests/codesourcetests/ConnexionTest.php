@@ -1,13 +1,12 @@
 <?php
 
-namespace codesourcetests;
+//namespace codesourcetests;
 
-use PDO;
-use PDOException;
 use PHPUnit\Framework\TestCase;
 
+require("fonction/connexion.php");
 
-class TestConnexion extends TestCase
+class ConnexionTest extends TestCase
 {
     private $pdoMock;
     private $stmtMock;

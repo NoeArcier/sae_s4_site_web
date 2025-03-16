@@ -1,7 +1,10 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 
-class ConnexionBDTest extends TestCase {
+require "fonction/liaisonBD.php";
+
+class LiaisonBDTest extends TestCase {
     
     public function testConnexionReussie() {
         try {
