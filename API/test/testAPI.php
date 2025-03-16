@@ -84,7 +84,7 @@
 					<?php
 						echo "<table class='table table-striped table-bordered'>";
 						
-						echo "<tr><th>Id</th><th>Date</th><th>Heure</th><th>Titre</th><th>Resumé</th><th>Impact</th><th>Recontact</th><th>Validation</th><th>Suppression</th></tr>";
+						echo "<tr><th>Id</th><th>Date</th><th>Heure</th><th>Titre</th><th>Resumé</th><th>Impact</th><th>Recontact</th><th>Salle</th><th>Validation</th><th>Suppression</th></tr>";
 						foreach ($lesSignalements as $signalements) {
 							echo "<tr>";
 							echo "<form method='GET' action=''>";
@@ -95,6 +95,7 @@
 							echo "<td><input type='text' name='resume' value='" . $signalements['resume'] . "'></td>";
 							echo "<td><input type='text' name='impact' value='" . $signalements['impact'] . "'></td>";
 							echo "<td><input type='text' name='recontact' value='" . $signalements['recontact'] . "'></td>";
+							echo "<td>" . $signalements['salle'] . "</td>";
 							echo "<td>
 									<input type='hidden' name='valider' value=" .$signalements["id"] .">
 									<button type='submit' class='btn btn-primary'>Valider</button>
