@@ -33,9 +33,10 @@
 	function getSignalements($identifiant) {
 		try {
 			$pdo=getPDO();
-			$requete='SELECT id, date, heure, titre, resume, impact, recontact
+			$requete='SELECT id, date, heure, titre, resume, impact, recontact, salle.nom AS salle
 			FROM signalements 
 			JOIN reservation ON signalements.id_reservation = reservation.id_reservation
+			JOIN salle ON reservation.id_salle = salle.id_salle
 			WHERE signalements.id_reservation = (SELECT id_reservation
 												 FROM reservation
 												 WHERE id_employe = :IDENTIFIANT)
