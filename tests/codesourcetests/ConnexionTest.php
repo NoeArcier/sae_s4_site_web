@@ -1,13 +1,11 @@
 <?php
 
-//namespace codesourcetests;
-
 use PHPUnit\Framework\TestCase;
 
 require("fonction/connexion.php");
 
-class ConnexionTest extends TestCase
-{
+class ConnexionTest extends TestCase {
+    
     private $pdoMock;
     private $stmtMock;
 
@@ -18,8 +16,7 @@ class ConnexionTest extends TestCase
         $this->stmtMock = $this->createMock(PDOStatement::class);
     }
 
-    public function testVerifUtilisateur()
-    {
+    public function testVerifUtilisateur() {
         $this->pdoMock->method('prepare')->willReturn($this->stmtMock);
         $this->stmtMock->method('fetch')->willReturn([
             'id_login' => 1,
@@ -35,8 +32,7 @@ class ConnexionTest extends TestCase
         $this->assertEquals('testUser', $result['login']);
     }
 
-    public function testVerifMdp()
-    {
+    public function testVerifMdp() {
         $this->pdoMock->method('prepare')->willReturn($this->stmtMock);
         $this->stmtMock->method('fetch')->willReturn([
             'id_login' => 1,
@@ -50,8 +46,7 @@ class ConnexionTest extends TestCase
         $this->assertEquals('hashedPassword', $result['mdp']);
     }
 
-    public function testTypeUtilisateur()
-    {
+    public function testTypeUtilisateur() {
         $this->pdoMock->method('prepare')->willReturn($this->stmtMock);
         $this->stmtMock->method('fetch')->willReturn([
             'id_type' => 2,
@@ -65,8 +60,7 @@ class ConnexionTest extends TestCase
         $this->assertEquals('admin', $result['nom_type']);
     }
 
-    public function testVerifSession()
-    {
+    public function testVerifSession() {
         $_SESSION = ['id' => 1];
         
         $this->expectNotToPerformAssertions();

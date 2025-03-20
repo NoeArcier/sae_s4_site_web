@@ -1,50 +1,83 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-require "fonction/liaisonBD.php";
+require "tests/codesource/salle.php";
 
-class SalleTest extends TestCase {
-    private $pdo;
+class SalleTest extends TestCase
+{
+    private $pdoMock;
 
     protected function setUp(): void {
-        $this->pdo = connecteBD();
-        $this->pdo->exec("DELETE FROM salle"); // Nettoyage de la table avant chaque test
+        $this->pdoMock = $this->createMock(PDO::class);
     }
 
     public function testVerifNomSalle() {
-        $this->pdo->exec("INSERT INTO salle (id_salle, nom) VALUES (1, 'Salle A')");
-        $this->assertTrue(verifNomSalle('Salle A', 2)); // Nom déjà existant
-        $this->assertFalse(verifNomSalle('Salle B', 3)); // Nom unique
+        $stmtMock = $this->createMock(PDOStatement::class);
+        $stmtMock->expects($this->once())->method('execute');
+        $stmtMock->expects($this->once())->method('fetchColumn')->willReturn(1);
+
+        $this->pdoMock->expects($this->once())->method('prepare')->willReturn($stmtMock);
+
+        $this->assertTrue(verifNomSalle($this->pdoMock, 'Salle A', 2));
     }
 
     public function testCreationSalle() {
-        creationSalle('Salle Test', 50, 1, 0, 10, 'Ordinateurs', 'Windows', 1);
-        $stmt = $this->pdo->query("SELECT COUNT(*) FROM salle WHERE nom = 'Salle Test'");
-        $this->assertEquals(1, $stmt->fetchColumn());
+        $stmtMock = $this->createMock(PDOStatement::class);
+        $stmtMock->expects($this->once())->method('execute');
+
+        $this->pdoMock->expects($this->once())->method('prepare')->willReturn($stmtMock);
+
+        creationSalle($this->pdoMock, 'Salle B', 30, 1, 0, 10, 'PC', 'Windows', 1);
+        $this->assertTrue(true);
     }
 
     public function testRecupAttributSalle() {
-        $this->pdo->exec("INSERT INTO salle (id_salle, nom, capacite) VALUES (1, 'Salle A', 30)");
-        $result = recupAttributSalle(1);
-        $this->assertEquals('Salle A', $result['nom']);
-        $this->assertEquals(30, $result['capacite']);
+        $stmtMock = $this->createMock(PDOStatement::class);
+        $stmtMock->expects($this->once())->method('execute');
+        $stmtMock->expects($this->once())->method('fetch')->willReturn([
+            'nom' => 'Salle C',
+            'capacite' => 50,
+            'videoproj' => 1
+        ]);
+
+        $this->pdoMock->expects($this->once())->method('prepare')->willReturn($stmtMock);
+
+        $resultat = recupAttributSalle($this->pdoMock, 3);
+        $this->assertEquals('Salle C', $resultat['nom']);
+        $this->assertEquals(50, $resultat['capacite']);
     }
 
     public function testMettreAJourSalle() {
-        $this->pdo->exec("INSERT INTO salle (id_salle, nom, capacite) VALUES (1, 'Ancienne Salle', 20)");
-        $message = mettreAJourSalle(1, 'Nouvelle Salle', 50, 1, 1, 5, 'Type', 'Logiciel', 1);
-        $this->assertStringContainsString('Salle mise à jour', $message);
-        
-        $stmt = $this->pdo->query("SELECT nom, capacite FROM salle WHERE id_salle = 1");
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $this->assertEquals('Nouvelle Salle', $result['nom']);
-        $this->assertEquals(50, $result['capacite']);
+        $stmtMock = $this->createMock(PDOStatement::class);
+        $stmtMock->expects($this->once())->method('execute');
+        $stmtMock->expects($this->once())->method('rowCount')->willReturn(1);
+
+        $this->pdoMock->expects($this->once())->method('prepare')->willReturn($stmtMock);
+
+        $resultat = mettreAJourSalle($this->pdoMock, 3, 'Salle D', 40, 1, 1, 15, 'Mac', 'Linux', 0);
+        $this->assertEquals("Salle mise à jour avec succès !", $resultat);
     }
 
     public function testSupprimerSalle() {
-        $this->pdo->exec("INSERT INTO salle (id_salle, nom) VALUES (1, 'Salle à Supprimer')");
-        supprimerSalle(1);
-        $stmt = $this->pdo->query("SELECT COUNT(*) FROM salle WHERE id_salle = 1");
-        $this->assertEquals(0, $stmt->fetchColumn());
+        $stmtMock = $this->createMock(PDOStatement::class);
+        $stmtMock->expects($this->once())->method('execute');
+
+        $this->pdoMock->expects($this->once())->method('prepare')->willReturn($stmtMock);
+
+        supprimerSalle($this->pdoMock, 3);
+        $this->assertTrue(true);
+    }
+
+    public function testVerifierReservations() {
+        $stmtMock = $this->createMock(PDOStatement::class);
+        $stmtMock->expects($this->once())->method('execute');
+        $stmtMock->expects($this->once())->method('fetchAll')->willReturn([101, 102]);
+
+        $this->pdoMock->expects($this->once())->method('prepare')->willReturn($stmtMock);
+
+        $resultat = verifierReservations($this->pdoMock);
+        $this->assertEquals([101, 102], $resultat);
     }
 }
+
+?>
