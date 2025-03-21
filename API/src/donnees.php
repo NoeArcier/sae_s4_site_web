@@ -4,9 +4,9 @@
 	function getPDO(){
 		// Retourne un objet connexion à la BD
 		$host='localhost';	// Serveur de BD
-		$db='statisallebd';		// Nom de la BD
-		$user='root';		// User 
-		$pass='root';		// Mot de passe
+		$db='StatisalleBD';		// Nom de la BD
+		$user='application';		// User 
+		$pass='@ppl1cat1on123';		// Mot de passe
 		$charset='utf8mb4';	// charset utilisé
 		
 		// Constitution variable DSN

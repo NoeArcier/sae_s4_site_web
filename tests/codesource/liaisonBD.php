@@ -34,7 +34,7 @@ function connecteBD() {
     if ($hostAUtiliser == 'local') {
 
         $host = 'localhost';                     // Adresse de l'hôte pour la base locale
-        $db = 'StatisalleBD';                    // Base de données local
+        $db = 'statisallebd';                    // Base de données local
         $user = 'application';                   // Identifiant pour la base locale
         $pass = '@ppl1cat1on123';                // Mot de passe pour la base locale
         $charset = 'utf8mb4';                    // Jeu de caractères à utiliser (UTF-8 étendu)
