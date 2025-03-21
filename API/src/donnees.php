@@ -37,7 +37,7 @@
 			FROM signalements 
 			JOIN reservation ON signalements.id_reservation = reservation.id_reservation
 			JOIN salle ON reservation.id_salle = salle.id_salle
-			WHERE signalements.id_reservation = (SELECT id_reservation
+			WHERE signalements.id_reservation = ANY(SELECT id_reservation
 												 FROM reservation
 												 WHERE id_employe = :IDENTIFIANT)
 			order by date DESC, heure DESC, impact DESC'; 

@@ -54,6 +54,7 @@
 	}
 
     function authentification() {
+		
 		if (isset($_SERVER["HTTP_APIKEYDEMONAPPLI"])) {
 			$cleAPI=$_SERVER["HTTP_APIKEYDEMONAPPLI"];
 
@@ -75,7 +76,7 @@
 		$pdo = getPDO();
 		
 		// Vérifier si l'utilisateur existe et récupérer son API key
-		$requete = "SELECT id_login FROM login WHERE login = :login AND mdp = sha1(:pwd)";
+		$requete = "SELECT id_employe FROM login WHERE login = :login AND mdp = sha1(:pwd)";
 		$stmt = $pdo->prepare($requete);
 		$stmt->bindParam(':login', $login);
 		$stmt->bindParam(':pwd', $password);
@@ -85,6 +86,7 @@
 	
 		if ($id) { //Si il existe
 			$infos['APIKEYDEMONAPPLI'] = "LKJfdgfgSDHSKFKsdfSHFJSD5465FfsdSQFH";
+			$infos['IDEMPLOYE'] = $id;
 			sendJSON($infos, 200);
 		} else { //Si il existe pas
 			$infos['Statut'] = "KO";
