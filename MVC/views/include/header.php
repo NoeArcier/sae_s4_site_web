@@ -1,10 +1,3 @@
-<?php
-// Déterminer si la page actuelle commence par "aide"
-$_SESSION['nom_page'] = basename($_SERVER['PHP_SELF'], '.php');
-$estPageAide = isset($_SESSION['nom_page']) && str_starts_with($_SESSION['nom_page'], 'aide');
-$baseChemin = $estPageAide ? '../pages/' : ''; // Chemin de base en fonction du type de page
-?>
-
 <header class="header row d-flex align-items-center fixed-top px-3">
     <!-- Conteneur pour organiser le contenu à gauche et à droite -->
     <div class="d-flex w-100 justify-content-between align-items-center">

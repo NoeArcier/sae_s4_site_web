@@ -20,7 +20,7 @@
 namespace application;
 
 use controllers\HomeController;
-use services\UsersService;
+use services\SalleService;
 use yasmf\ComponentFactory;
 use yasmf\NoControllerAvailableForNameException;
 use yasmf\NoServiceAvailableForNameException;
@@ -30,7 +30,7 @@ use yasmf\NoServiceAvailableForNameException;
  */
 class DefaultComponentFactory implements ComponentFactory
 {
-    private ?UsersService $usersService = null;
+    private ?SalleService $salleService = null;
 
     /**
      * @param string $controller_name the name of the controller to instanciate
@@ -58,14 +58,14 @@ class DefaultComponentFactory implements ComponentFactory
     }
 
     /**
-     * @return UsersService
+     * @return SalleService
      */
-    private function buildUsersService(): UsersService
+    private function buildUsersService(): SalleService
     {
-        if ($this->usersService == null) {
-            $this->usersService = new UsersService();
+        if ($this->salleService == null) {
+            $this->salleService = new SalleService();
         }
-        return $this->usersService;
+        return $this->salleService;
     }
 
     /**

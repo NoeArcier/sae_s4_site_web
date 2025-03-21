@@ -1,0 +1,26 @@
+{
+  "name": "yasmf/yasmf_mvc",
+  "config": {
+    "vendor-dir": "mvc/lib/vendor"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/the-yasmf-project/yasmf"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "controllers\\": "mvc/controllers",
+      "services\\": "mvc/services",
+      "application\\": "mvc/application"
+    }
+  },
+  "require": {
+    "php": ">=8.0",
+    "phpunit/phpunit": "10.0.*",
+    "phpstan/phpstan": "1.10.*",
+    "ext-pdo": "*",
+    "yasmf/yasmf": ">=1.6.1"
+  }
+}

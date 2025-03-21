@@ -1,7 +1,5 @@
 <footer class="footer row">
     <?php
-    // Récupérer le nom de la page actuelle
-    $_SESSION['nom_page'] = basename($_SERVER['PHP_SELF'], '.php'); // Exemple : "index" pour "index.php"
 
     // Associer les pages d'aide aux noms de pages
     $aides = [
@@ -43,7 +41,7 @@
     ];
 
 
-    $page_aide = isset($aides[$_SESSION['nom_page']]) ? $aides[$_SESSION['nom_page']] : 'aideAccueil.php';
+    $page_aide = isset($aides[$nomPage]) ? $aides[$nomPage] : 'aideAccueil.php';
     ?>
     <script>
         // Stocker la page d'aide dans une variable JavaScript
@@ -58,7 +56,7 @@
         <button class="rounded bouton-footer"
                 type="button"
                 onclick="window.location.href=
-                        '<?php echo ($_SESSION['nom_page'] === 'index') ? 'pages/contact.php' : '../pages/contact.php'; ?>'">
+                        '<?php echo ($nomPage === 'index') ? 'pages/contact.php' : '../pages/contact.php'; ?>'">
             Contactez-nous
         </button>
     </div>
@@ -86,8 +84,6 @@
             <p class="text-center text-white">
                 Temps de chargement :
                 <?php
-                $endTime = microtime(true);
-                $executionTime = round(($endTime - $startTime) * 1000, 2); // Temps en millisecondes
                 echo $executionTime . ' ms';
                 ?>
             </p>
@@ -95,10 +91,9 @@
     </div>
     <div class="col-12 col-md-4 d-flex justify-content-md-end justify-content-center">
         <a href="
-        <?php echo ($_SESSION['nom_page'] === 'index') ? '#' : '../index.php'; ?>
+        <?php echo ($nomPage === 'index') ? '#' : '../index.php'; ?>
         " title="Page d'accueil">
-            <?php $path = ($_SESSION['nom_page'] === 'index') ? 'img/' : '../img/';?>
-            <img src="<?= $path?>LogoStatisalle.jpg" alt="Logo de StatiSalle" class="img-fluid d-none d-sm-none d-md-block">
+            <img src="views/img/LogoStatisalle.jpg" alt="Logo de StatiSalle" class="img-fluid d-none d-sm-none d-md-block">
         </a>
     </div>
 </footer>

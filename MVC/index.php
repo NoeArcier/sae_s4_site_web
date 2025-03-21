@@ -26,7 +26,7 @@ require $_SERVER[ 'DOCUMENT_ROOT' ] . PREFIX . '/lib/vendor/autoload.php';
 
 use application\DefaultComponentFactory;
 use yasmf\Router;
-use yasmf\DataSource
+use yasmf\DataSource;
 
 $dbConfig = require 'dbconfig.php';
 

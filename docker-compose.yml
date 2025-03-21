@@ -1,0 +1,23 @@
+
+services:
+  sae_s4_mvc:
+    image: webdevops/php-apache-dev:8.2-alpine
+    container_name: sae_s4_mvc
+    working_dir: /app/
+    ports:
+      - 8080:80
+    volumes:
+      - ./:/Users/na/Desktop/SAE_S4/sae_s4_site_web/mvc
+  sae_s4_mvc_db:
+    image: mysql:8
+    container_name: sae_s4_mvc_db
+    environment:
+      - MYSQL_USER=user
+      - MYSQL_DATABASE=StatisalleBD
+      - MYSQL_PASSWORD=mdp
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "6612:3306"
+    volumes:
+      - ./SQL/:/docker-entrypoint-initdb.d
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci 

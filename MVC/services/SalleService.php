@@ -4,6 +4,7 @@ namespace services;
 
 use PDO;
 use PDOStatement;
+use Verification;
 
 /**
  * classe service permettant d'accéder à la base de données
@@ -151,17 +152,26 @@ class SalleService {
     /**
      * Supprime la salle associé
      * @param $pdo, accès BD
-     * @param $id_salle
-     * @return array
+     * @param $idSalle, identifiant de la salle
+     * @return boolean, true si suppression effectuée,
+     *                  false si erreur car salle liée à une réservation
      */
     public function supprimerSalle($pdo, $idSalle) {
-        try {
+
+        if (false /* STUB Verification->verifierReservations($pdo, $idSalle) */) {
+            // Si des réservations existent, suppression impossible
+            $retour = false;
+        } else {
+            // Si pas de réservations, supprimer la salle
             $requete = "DELETE FROM salle WHERE id_salle = :idSalle";
             $stmt = $pdo->prepare($requete);
             $stmt->execute(['idSalle' => $idSalle]);
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage(), $e->getCode());
+            
+            $retour = true;
         }
+
+        return $retour;
+        
     }
 
 }

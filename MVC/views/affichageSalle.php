@@ -1,42 +1,3 @@
-<?php
-    // $startTime = microtime(true); // temps de chargement de la page
-    // require '../fonction/connexion.php';
-    // require '../fonction/salle.php';
-
-    // session_start();
-    // verif_session();
-
-    // $messageSucces = $messageErreur ='';
-    // $supprimer = isset($_POST['supprimer']) ? $_POST['supprimer'] : 'false';
-    // $id_salle = $_POST['idSalle'] ?? null;
-
-    // if ($supprimer == "true" && $id_salle) {
-    //     try {
-    //         $reservations = verifierReservations($id_salle);
-
-    //         if (count($reservations) > 0) {
-    //             // Si des réservations existent, afficher un message d'erreur
-    //             $messageErreur = '<span class="fa-solid fa-arrow-right erreur"></span>
-    //                                         <span class="erreur">Impossible de supprimer cette salle. 
-    //                                         Des réservations y sont associées.</span>
-    //                                         <a href="affichageReservation.php" title="Page réservation">Cliquez ici</a>';
-    //         } else {
-    //             // Si pas de réservations, supprimer la salle
-    //             supprimerSalle($id_salle);
-    //             $messageSucces = 'Salle supprimée avec succès !';
-    //         }
-    //     } catch (Exception $e) {
-    //         $messageSucces = '<span class="fa-solid fa-arrow-right erreur"></span>
-    //                                     <span class="erreur">Une erreur est survenue : ' . htmlspecialchars($e->getMessage()) . '</span>';
-    //     }
-    // }
-
-    // // Chargement des filtres
-    // $tabNoms       = listeDesNoms();
-    // $tabCapacite   = listeDesCapacites();
-    // $tabOrdinateur = listeDesOrdinateurs();
-    // $tabLogiciels  = listeDesLogiciels();
-?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -51,7 +12,7 @@
         <link rel="stylesheet" href="../../css/header.css">
         <link rel="stylesheet" href="../../css/footer.css">
         <!-- Icon du site -->
-        <link rel="icon" href=" ../../img/logo.ico">
+        <link rel="icon" href="views/img/logo.ico">
     </head>
     <body>
         <div class="container-fluid">
@@ -270,6 +231,6 @@
             <?php include 'include/footer.php'; ?>
         </div>
         <!-- JavaScript pour les filtres -->
-        <script defer src="../JS/filtreSalle.js"></script>
+        <script defer src="JS/filtreSalle.js"></script>
     </body>
 </html>

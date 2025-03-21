@@ -3,7 +3,7 @@
         'name' => 'yasmf/yasmf_mvc',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'daaabbee435c79e1bf52373f22a480fb9d6eec5e',
+        'reference' => '4510901417630ec15bf22f79a7cb1a4c09ed50d8',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../../../',
         'aliases' => array(),
@@ -265,7 +265,7 @@
         'yasmf/yasmf_mvc' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'daaabbee435c79e1bf52373f22a480fb9d6eec5e',
+            'reference' => '4510901417630ec15bf22f79a7cb1a4c09ed50d8',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../../../',
             'aliases' => array(),
