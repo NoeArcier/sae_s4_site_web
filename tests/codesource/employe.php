@@ -1,9 +1,6 @@
 <?php
-    include 'liaisonBD.php';
-    $pdo = connecteBD();
 
     function renvoyerEmployes(?int $limite = null): array {
-        global $pdo;
 
         $requete = "SELECT nom, prenom, login.login AS id_compte, 
                            telephone, type_utilisateur.nom_type AS type_utilisateur, 
@@ -29,8 +26,7 @@
         return $stmt->fetchAll();
     }
 
-    function compterEmployes(): int {
-        global $pdo;
+    function compterEmployes($pdo): int {
 
         $requete = "SELECT COUNT(*) AS total FROM employe";
         $stmt = $pdo->query($requete);
@@ -40,8 +36,7 @@
         return (int)$result['total'];
     }
 
-    function supprimerEmploye($id_employe): void {
-        global $pdo;
+    function supprimerEmploye($pdo, $id_employe): void {
 
         try {
             // Démarrage de la transaction
@@ -68,7 +63,7 @@
         }
     }
 
-    function verifMdp($mdp): bool {
+    function verifMdp($pdo, $mdp): bool {
         // Vérifier que le mot de passe fait plus de 8 caractères
         if (strlen($mdp) <= 8) {
             return false;
@@ -82,8 +77,7 @@
         // Si toutes les vérifications sont bonnes
         return true;
     }
-    function verifLogin($login): bool {
-        global $pdo;
+    function verifLogin($pdo, $login): bool {
 
         $sql = "SELECT COUNT(*) 
                 FROM login 
@@ -96,8 +90,7 @@
         return $result > 0;  // Si le nombre est supérieur à 0, le login existe déjà
     }
 
-    function ajouterEmploye($nom, $prenom, $login, $telephone, $mdp, $id_type): void {
-        global $pdo;
+    function ajouterEmploye($pdo, $nom, $prenom, $login, $telephone, $mdp, $id_type): void {
 
         try {
             // Démarrer une transaction
@@ -154,8 +147,8 @@
         }
     }
 
-    function recupAttributLogin($idEmploye) {
-        global $pdo;
+    function recupAttributLogin($pdo, $idEmploye) {
+
         try{
             // Récupérer les informations de la table salle
             $stmt = $pdo->prepare("SELECT login, mdp, id_type
@@ -172,8 +165,8 @@
         }
     }
 
-    function recupAttributEmploye($idEmploye) {
-        global $pdo;
+    function recupAttributEmploye($pdo, $idEmploye) {
+
         try {
             // Récupérer les informations de la table employe
             $stmt = $pdo->prepare("SELECT nom, prenom, telephone
@@ -193,8 +186,7 @@
         }
     }
 
-    function modifierEmploye($id, $nom, $prenom, $login, $telephone, $mdp, $id_type) {
-        global $pdo;
+    function modifierEmploye($pdo, $id, $nom, $prenom, $login, $telephone, $mdp, $id_type) {
         try {
             // Début de la transaction
             $pdo->beginTransaction();
@@ -246,8 +238,7 @@
         }
     }
 
-    function modifierEmployeSansMdp($id, $nom, $prenom, $login, $numTel, $id_type) {
-        global $pdo;
+    function modifierEmployeSansMdp($pdo, $id, $nom, $prenom, $login, $numTel, $id_type) {
 
         // Mise à jour des informations personnelles (table employe)
         $sqlEmploye = "UPDATE employe 
@@ -264,8 +255,7 @@
         $stmtLogin->execute([$login, $id_type, $id]);
     }
 
-    function verifIdType($id_type) {
-        global $pdo;
+    function verifIdType($pdo, $id_type) {
 
         $requeteVerifType = "SELECT COUNT(id_type) FROM type_utilisateur WHERE id_type = :id_type";
         $stmtVerif = $pdo->prepare($requeteVerifType);
@@ -274,8 +264,8 @@
     }
 
     // Fonction pour vérifier si le login existe déjà
-    function verifLoginExiste($login): bool {
-        global $pdo;
+    function verifLoginExiste($pdo, $login): bool {
+
         $query = $pdo->prepare("SELECT COUNT(*) FROM login WHERE login = :login");
         $query->execute(['login' => $login]);
         return $query->fetchColumn() > 0;

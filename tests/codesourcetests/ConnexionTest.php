@@ -2,21 +2,19 @@
 
 use PHPUnit\Framework\TestCase;
 
-require("fonction/connexion.php");
+require("tests/codesource/connexion.php");
 
 class ConnexionTest extends TestCase {
     
     private $pdoMock;
     private $stmtMock;
 
-    protected function setUp(): void
-    {
-        // Création des mocks pour PDO et PDOStatement
+    protected function setUp(): void {
         $this->pdoMock = $this->createMock(PDO::class);
         $this->stmtMock = $this->createMock(PDOStatement::class);
     }
 
-    public function testVerifUtilisateur() {
+    public function testVerificationUtilisateurExistant() {
         $this->pdoMock->method('prepare')->willReturn($this->stmtMock);
         $this->stmtMock->method('fetch')->willReturn([
             'id_login' => 1,
@@ -32,7 +30,7 @@ class ConnexionTest extends TestCase {
         $this->assertEquals('testUser', $result['login']);
     }
 
-    public function testVerifMdp() {
+    public function testVerificationMotDePasseCorrect() {
         $this->pdoMock->method('prepare')->willReturn($this->stmtMock);
         $this->stmtMock->method('fetch')->willReturn([
             'id_login' => 1,
@@ -60,7 +58,7 @@ class ConnexionTest extends TestCase {
         $this->assertEquals('admin', $result['nom_type']);
     }
 
-    public function testVerifSession() {
+    public function testVerificationSession() {
         $_SESSION = ['id' => 1];
         
         $this->expectNotToPerformAssertions();

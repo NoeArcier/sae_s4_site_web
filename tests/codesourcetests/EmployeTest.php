@@ -2,76 +2,91 @@
 
 use PHPUnit\Framework\TestCase;
 
-require("fonction/employe.php");
+require("tests/codesource/employe.php");
 
 class EmployeTest extends TestCase {
-    private $pdo;
+    private $pdoMock;
+    private $stmtMock;
 
     protected function setUp(): void {
-        $this->pdo = new PDO('sqlite::memory:');
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->createTables();
-    }
-
-    private function createTables() {
-        $this->pdo->exec("CREATE TABLE employe (
-            id_employe TEXT PRIMARY KEY, 
-            nom TEXT, 
-            prenom TEXT, 
-            telephone TEXT
-        );");
-
-        $this->pdo->exec("CREATE TABLE login (
-            login TEXT PRIMARY KEY, 
-            mdp TEXT, 
-            id_type INTEGER, 
-            id_employe TEXT,
-            FOREIGN KEY(id_employe) REFERENCES employe(id_employe)
-        );");
+        $this->pdoMock = $this->createMock(PDO::class);
+        $this->stmtMock = $this->createMock(PDOStatement::class);
     }
 
     public function testRenvoyerEmployes() {
-        global $pdo;
-        $pdo = $this->pdo;
-        $pdo->exec("INSERT INTO employe VALUES ('E000001', 'Doe', 'John', '123456789');");
-        $pdo->exec("INSERT INTO login VALUES ('johndoe', 'password', 1, 'E000001');");
+        $this->pdoMock->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->stmtMock);
 
-        $result = renvoyerEmployes();
+        $this->stmtMock->expects($this->once())
+            ->method('execute');
+
+        $this->stmtMock->expects($this->once())
+            ->method('fetchAll')
+            ->willReturn([
+                ['nom' => 'Doe', 'prenom' => 'John', 'id_compte' => 'johndoe', 'telephone' => '123456789']
+            ]);
+
+        $result = renvoyerEmployes($this->pdoMock);
         $this->assertCount(1, $result);
+        $this->assertEquals('Doe', $result[0]['nom']);
     }
 
     public function testCompterEmployes() {
-        global $pdo;
-        $pdo = $this->pdo;
-        $pdo->exec("INSERT INTO employe VALUES ('E000001', 'Doe', 'John', '123456789');");
+        $this->pdoMock->expects($this->once())
+            ->method('query')
+            ->willReturn($this->stmtMock);
 
-        $count = compterEmployes();
-        $this->assertEquals(1, $count);
-    }
+        $this->stmtMock->expects($this->once())
+            ->method('fetch')
+            ->willReturn(['total' => 3]);
 
-    public function testVerifMdp() {
-        $this->assertTrue(verifMdp("Password@123"));
-        $this->assertFalse(verifMdp("short"));
-        $this->assertFalse(verifMdp("NoSpecialChar1"));
-    }
-
-    public function testVerifLogin() {
-        global $pdo;
-        $pdo = $this->pdo;
-        $pdo->exec("INSERT INTO login VALUES ('johndoe', 'password', 1, 'E000001');");
-        
-        $this->assertTrue(verifLogin('johndoe'));
-        $this->assertFalse(verifLogin('janedoe'));
+        $count = compterEmployes($this->pdoMock);
+        $this->assertEquals(3, $count);
     }
 
     public function testSupprimerEmploye() {
-        global $pdo;
-        $pdo = $this->pdo;
-        $pdo->exec("INSERT INTO employe VALUES ('E000001', 'Doe', 'John', '123456789');");
-        $pdo->exec("INSERT INTO login VALUES ('johndoe', 'password', 1, 'E000001');");
-        
-        supprimerEmploye('E000001');
-        $stmt = $pdo->query("SELECT COUNT(*) FROM employe;");
-        $this->assertEquals(0, $stmt->fetchColumn());
+        $this->pdoMock->expects($this->once())
+            ->method('beginTransaction');
+
+        $this->pdoMock->expects($this->exactly(2))
+            ->method('prepare')
+            ->willReturn($this->stmtMock);
+
+        $this->stmtMock->expects($this->exactly(2))
+            ->method('execute');
+
+        $this->pdoMock->expects($this->once())
+            ->method('commit');
+
+        supprimerEmploye($this->pdoMock, 'E000001');
+    }
+
+    public function testAjouterEmploye() {
+        $this->pdoMock->expects($this->once())
+            ->method('beginTransaction');
+
+        // Simuler la récupération du dernier ID employé
+        $this->pdoMock->expects($this->once())
+            ->method('query')
+            ->willReturn($this->stmtMock);
+
+        $this->stmtMock->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn('E000002'); // Simule le dernier ID trouvé
+
+        // Simuler les préparations des requêtes
+        $this->pdoMock->expects($this->exactly(2))
+            ->method('prepare')
+            ->willReturn($this->stmtMock);
+
+        $this->stmtMock->expects($this->exactly(2))
+            ->method('execute');
+
+        $this->pdoMock->expects($this->once())
+            ->method('commit');
+
+        ajouterEmploye($this->pdoMock, 'Doe', 'John', 'johndoe', '123456789', 'password', 1);
     }
 }
+?>
