@@ -18,7 +18,7 @@ class VerificationTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \services\Verification::verifNomSalle
      */
     public function testVerifNomSalleSucces() {
         
@@ -33,7 +33,7 @@ class VerificationTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \services\Verification::verifNomSalle
      */
     public function testVerifNomSalleEchec() {
         
@@ -48,14 +48,14 @@ class VerificationTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \services\Verification::verifierInfosSalles
      */
     public function testVerifierInfosSallesAucunesErreurs() {
         self::assertSame([], Verification::verifierInfosSalles("IncidAndroid", 1, "oui", "non"));
     }
     
     /**
-     * @covers
+     * @covers \services\Verification::verifierInfosSalles
      */
     public function testVerifierInfosSallesAvecErreurs() {
         
@@ -68,7 +68,7 @@ class VerificationTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \services\Verification::verifiserSalle
      */
     public function testVerifiserSalleAReservations() {
         
@@ -83,7 +83,7 @@ class VerificationTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \services\Verification::verifiserSalle
      */
     public function testVerifiserSalleAucunesReservations() {
         $id_salle = 1;
@@ -96,3 +96,5 @@ class VerificationTest extends TestCase {
         $this->assertFalse($resultat);
     }
 }
+
+?>

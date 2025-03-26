@@ -25,7 +25,7 @@ class HomeControllerTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \controllers\HomeController::__construct
      */
     public function composantsExistants(): void {
         self::assertNotNull($this->salleService);
@@ -33,7 +33,7 @@ class HomeControllerTest extends TestCase {
     }
 
     /**
-     * @covers
+     * @covers \controllers\HomeController::index
      */
     public function testIndex(): void {
 
@@ -65,3 +65,5 @@ class HomeControllerTest extends TestCase {
         self::assertSame(["notepad++"], $view->getVar("tabLogiciels"));
     }
 }
+
+?>

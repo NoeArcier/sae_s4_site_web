@@ -52,7 +52,7 @@ class SalleServiceTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \services\SalleService::listeSalles
      */
     public function testListeSallesExistantes() {
         
@@ -61,9 +61,9 @@ class SalleServiceTest extends TestCase {
         
         self::assertSame($this->sallesMock, $this->salleService->listeSalles($this->pdo));
     }
-    
+
     /**
-     * @covers
+     * @covers \services\SalleService::listeSalles
      */
     public function testListeSallesNonExistantes() {
         
@@ -74,7 +74,7 @@ class SalleServiceTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \services\SalleService::infosSalle
      */
     public function testInfosSalleTrouvees() {
         
@@ -96,7 +96,7 @@ class SalleServiceTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \services\SalleService::infosSalle
      */
     public function testInfosSalleNonExistantes() {
 
@@ -107,7 +107,7 @@ class SalleServiceTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \services\SalleService::ajoutSalle
      */
     public function testAjoutSalle() {
     
@@ -133,7 +133,7 @@ class SalleServiceTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \services\SalleService::modificationSalle
      */
     public function testModificationSalleEffectuee() {
         
@@ -163,9 +163,9 @@ class SalleServiceTest extends TestCase {
 
         self::assertSame("Salle mise à jour avec succès !", $result);
     }
-    
+
     /**
-     * @covers
+     * @covers \services\SalleService::modificationSalle
      */
     public function testModificationSalleNonEffectuee() {
         
@@ -195,9 +195,9 @@ class SalleServiceTest extends TestCase {
 
         self::assertSame("Aucune modification n'a été effectuée. Vérifiez les données.", $result);
     }
-    
+
     /**
-     * @covers
+     * @covers \services\SalleService::suppressionSalle
      */
     public function testSuppressionSalleSansReservations() {
         
@@ -210,3 +210,5 @@ class SalleServiceTest extends TestCase {
         $this->assertTrue($this->salleService->supprimerSalle($this->pdo, $idSalle));
     }
 }
+
+?>

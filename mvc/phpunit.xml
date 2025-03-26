@@ -10,7 +10,7 @@
          failOnRisky="false"
          failOnWarning="false">
     <testsuites>
-        <testsuite name="default">
+        <testsuite name="default test suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

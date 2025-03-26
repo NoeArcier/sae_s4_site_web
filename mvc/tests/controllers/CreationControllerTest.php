@@ -28,9 +28,9 @@ class CreationControllerTest extends TestCase {
     }
 
     /**
-     * @covers
+     * @covers \controllers\CreationController::creation
      */
-     public function testCreationViewIsReturned() {
+     public function testCreation() {
 
         $this->pdo->method('prepare')->willReturn($this->pdoStatement);
 
@@ -38,7 +38,7 @@ class CreationControllerTest extends TestCase {
 
         self::assertEquals("views/creationSalle", $view->getRelativePath());
         $this->assertInstanceOf(View::class, $view);
-    }
-
-    
+    }   
 }
+
+?>

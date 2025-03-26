@@ -6,7 +6,6 @@ use controllers\HomeController;
 use controllers\CreationController;
 use PHPUnit\Framework\TestCase;
 use services\SalleService;
-use services\Verification;
 use yasmf\NoControllerAvailableForNameException;
 use yasmf\NoServiceAvailableForNameException;
 
@@ -21,7 +20,7 @@ class DefaultComponentFactoryTest extends TestCase {
 
     
     /**
-     * @covers
+     * @covers \application\DefaultComponentFactory::buildControllerByName
      */
     public function testBuildControllerByNameHome() {
         $controller = $this->componentFactory->buildControllerByName("Home");
@@ -29,15 +28,15 @@ class DefaultComponentFactoryTest extends TestCase {
     }
     
     /**
-     * @covers
+     * @covers \application\DefaultComponentFactory::buildControllerByName
      */
     public function testBuildControllerByNameCreation() {
         $controller = $this->componentFactory->buildControllerByName("Creation");
-        self::assertInstanceOf(CreationController::class ,$controller);
+        self::assertInstanceOf(CreationController::class, $controller);
     }
 
     /**
-     * @covers
+     * @covers \application\DefaultComponentFactory::buildControllerByName
      */
     public function testBuildControllerByNameOther() {
         $this->expectException(NoControllerAvailableForNameException::class);
@@ -45,7 +44,7 @@ class DefaultComponentFactoryTest extends TestCase {
     }
 
     /**
-     * @covers
+     * @covers \application\DefaultComponentFactory::buildServiceByName
      */
     public function testBuildServiceByNameSalle() {   
         $service = $this->componentFactory->buildServiceByName("Salle");
@@ -54,10 +53,12 @@ class DefaultComponentFactoryTest extends TestCase {
     }
 
     /**
-     * @covers
+     * @covers \application\DefaultComponentFactory::buildServiceByName
      */
     public function testBuildServiceByNameOther() {
         $this->expectException(NoServiceAvailableForNameException::class);
         $this->componentFactory->buildServiceByName("NoService");
     }
 }
+
+?>
