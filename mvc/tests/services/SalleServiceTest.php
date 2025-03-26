@@ -196,5 +196,17 @@ class SalleServiceTest extends TestCase {
         self::assertSame("Aucune modification n'a été effectuée. Vérifiez les données.", $result);
     }
     
-    // TODO méthode suppression
+    /**
+     * @covers
+     */
+    public function testSuppressionSalleSansReservations() {
+        
+        $idSalle = 1;
+
+        // Simuler l'absence de réservations
+        $this->pdo->method('prepare')->willReturn($this->pdoStatement);
+        $this->pdoStatement->method('execute')->willReturn(true);
+
+        $this->assertTrue($this->salleService->supprimerSalle($this->pdo, $idSalle));
+    }
 }
