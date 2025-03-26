@@ -69,3 +69,5 @@ class DefaultComponentFactory implements ComponentFactory
         return new CreationController($this->buildSalleService());
     }
 }
+
+?>

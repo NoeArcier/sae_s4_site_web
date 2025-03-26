@@ -71,5 +71,6 @@ class Verification
             throw new PDOException($e->getMessage(), $e->getCode());
         }
     }
-
 }
+
+?>
