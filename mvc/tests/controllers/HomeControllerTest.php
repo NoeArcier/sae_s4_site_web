@@ -24,11 +24,17 @@ class HomeControllerTest extends TestCase {
         $this->homeController = new HomeController($this->salleService);
     }
     
+    /**
+     * @covers
+     */
     public function composantsExistants(): void {
         self::assertNotNull($this->salleService);
         self::assertNotNull($this->homeController);
     }
 
+    /**
+     * @covers
+     */
     public function testIndex(): void {
 
         // On simule le retour de listeSalles()

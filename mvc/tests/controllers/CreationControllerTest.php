@@ -24,11 +24,6 @@ class CreationControllerTest extends TestCase {
         
         $this->creationController = new CreationController($this->salleService);
     }
-    
-    public function composantsExistants(): void {
-        self::assertNotNull($this->salleService);
-        self::assertNotNull($this->creationController);
-    }
 
     public function testCreation(): void {          
         // TODO
