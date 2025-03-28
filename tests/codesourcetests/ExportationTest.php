@@ -9,7 +9,6 @@ class ExportationTest extends TestCase {
     private $pdoMock;
 
     protected function setUp(): void {
-        // Création d'un mock pour l'objet PDO
         $this->pdoMock = $this->createMock(PDO::class);
     }
 
