@@ -87,7 +87,7 @@
 	}
 
 	function modifierSignalement($donneesJson, $identifiant) {
-		if ($donneesJson['TITRE'] != "" && $donneesJson['RESUME'] != ""
+		if ($donneesJson['TITRE'] != ""
 			&& $donneesJson['IMPACT'] != "" && $donneesJson['RECONTACT'] != "") {
 			// Données remplies, on modifie dans la table stockprix
 			try {
@@ -135,7 +135,6 @@
 	
 	function ajoutSignalement($donneesJson) {
 		if($donneesJson['TITRE'] != ""
-			&& $donneesJson['RESUME'] != ""
 			&& $donneesJson['IMPACT'] != ""
 			&& $donneesJson['RECONTACT'] != ""
 			&& $donneesJson['RESERVATION'] != ""

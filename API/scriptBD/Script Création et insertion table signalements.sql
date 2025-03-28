@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS signalements (
 	date DATE NOT NULL,
 	heure TIME NOT NULL,
 	titre VARCHAR(50) NOT NULL,
-	resume VARCHAR(200) NOT NULL,
+	resume VARCHAR(200),
 	impact INT(1) NOT NULL,
 	recontact BOOLEAN NOT NULL,
 	id_reservation CHAR(7) NOT NULL
