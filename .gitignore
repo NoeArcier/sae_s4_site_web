@@ -1,4 +1,3 @@
-tests/composer.phar
-tests/vendor/
-mvc/lib/
 .phpunit.cache
+composer.phar
+lib/
