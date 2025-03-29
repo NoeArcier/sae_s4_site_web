@@ -1,6 +1,0 @@
-parameters:
-	level: 10
-	paths:
-		- ../../sae_s4_site_web/
-	excludePaths:
-	    - ./
