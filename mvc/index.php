@@ -1,7 +1,7 @@
 <?php
 
 const PREFIX = "/mvc";
-require $_SERVER[ 'DOCUMENT_ROOT' ] . PREFIX . '/lib/vendor/autoload.php';
+require $_SERVER[ 'DOCUMENT_ROOT' ] . '/lib/vendor/autoload.php';
 
 
 use application\DefaultComponentFactory;

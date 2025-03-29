@@ -1,7 +1,7 @@
 {
   "name": "yasmf/yasmf_mvc",
   "config": {
-    "vendor-dir": "mvc/lib/vendor"
+    "vendor-dir": "lib/vendor"
   },
   "repositories": [
     {
