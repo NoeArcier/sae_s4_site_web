@@ -71,16 +71,16 @@ class EmployeTest extends TestCase {
             ->method('query')
             ->willReturn($this->stmtMock);
 
-        $this->stmtMock->expects($this->once())
+        $this->stmtMock->expects($this->exactly(2))
             ->method('fetchColumn')
             ->willReturn('E000002'); // Simule le dernier ID trouvé
 
         // Simuler les préparations des requêtes
-        $this->pdoMock->expects($this->exactly(2))
+        $this->pdoMock->expects($this->exactly(3))
             ->method('prepare')
             ->willReturn($this->stmtMock);
 
-        $this->stmtMock->expects($this->exactly(2))
+        $this->stmtMock->expects($this->exactly(3))
             ->method('execute');
 
         $this->pdoMock->expects($this->once())

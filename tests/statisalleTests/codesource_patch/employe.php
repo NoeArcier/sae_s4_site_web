@@ -1,6 +1,6 @@
 <?php
 
-    function renvoyerEmployes(?int $limite = null): array {
+    function renvoyerEmployes($pdo, ?int $limite = null): array {
 
         $requete = "SELECT nom, prenom, login.login AS id_compte, 
                            telephone, type_utilisateur.nom_type AS type_utilisateur, 
@@ -119,7 +119,7 @@
             ]);
 
             // Vérifier si le type d'utilisateur existe
-            if (!verifIdType($id_type)) {
+            if (!verifIdType($pdo, $id_type)) {
                 throw new Exception('Le type d\'utilisateur n\'existe pas dans la table type_utilisateur.');
             }
 
