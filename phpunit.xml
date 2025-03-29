@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+         bootstrap="lib\vendor\autoload.php"
+         cacheDirectory=".phpunit.cache"
+         executionOrder="default"
+         requireCoverageMetadata="false"
+         beStrictAboutCoverageMetadata="false"
+         beStrictAboutOutputDuringTests="false"
+         failOnRisky="false"
+         failOnWarning="false">
+         
+    <testsuites>
+    
+        <testsuite name="mvc test suite">
+            <directory>tests/mvcTests</directory>
+        </testsuite>
+        
+        <testsuite name="default test suite">
+            <directory>tests/statisalleTests</directory>
+        </testsuite>
+        
+    </testsuites>
+
+    <coverage>
+        <include>
+            <directory suffix=".php">mvc/application</directory>
+            <directory suffix=".php">mvc/controllers</directory>
+            <directory suffix=".php">mvc/services</directory>
+        </include>
+    </coverage>
+    
+</phpunit>

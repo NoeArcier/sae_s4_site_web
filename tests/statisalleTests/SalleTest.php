@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-require "tests/codesource/salle.php";
+require "codesource_patch/salle.php";
 
 class SalleTest extends TestCase
 {

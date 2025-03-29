@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require "tests/codesource/exportation.php";
+require "codesource_patch/exportation.php";
 
 class ExportationTest extends TestCase {
 

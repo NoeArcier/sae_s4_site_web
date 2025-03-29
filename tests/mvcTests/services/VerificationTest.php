@@ -68,7 +68,7 @@ class VerificationTest extends TestCase {
     }
     
     /**
-     * @covers \services\Verification::verifiserSalle
+     * @covers \services\Verification::verifiserSalleAReservations
      */
     public function testVerifiserSalleAReservations() {
         
@@ -83,7 +83,7 @@ class VerificationTest extends TestCase {
     }
     
     /**
-     * @covers \services\Verification::verifiserSalle
+     * @covers \services\Verification::verifiserSalleAReservations
      */
     public function testVerifiserSalleAucunesReservations() {
         $id_salle = 1;

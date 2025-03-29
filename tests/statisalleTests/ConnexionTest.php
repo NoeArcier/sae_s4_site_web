@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require("tests/codesource/connexion.php");
+require("codesource_patch/connexion.php");
 
 class ConnexionTest extends TestCase {
     

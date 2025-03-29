@@ -197,7 +197,7 @@ class SalleServiceTest extends TestCase {
     }
 
     /**
-     * @covers \services\SalleService::suppressionSalle
+     * @covers \services\SalleService::supprimerSalle
      */
     public function testSuppressionSalleSansReservations() {
         
